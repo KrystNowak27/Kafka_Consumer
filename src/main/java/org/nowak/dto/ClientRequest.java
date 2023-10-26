@@ -1,8 +1,6 @@
 package org.nowak.dto;
 
-
 import lombok.*;
-
 
 @Data
 @AllArgsConstructor

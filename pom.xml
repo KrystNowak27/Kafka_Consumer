@@ -23,7 +23,7 @@
         <mockito-core.version>3.4.6</mockito-core.version>
         <postgresql.version>42.6.0</postgresql.version>
         <lombok.version>1.18.28</lombok.version>
-        <hibernate-core.version>5.4.18.Final</hibernate-core.version>
+        <hibernate-core.version>4.1.4.Final</hibernate-core.version>
     </properties>
 
     <dependencies>
@@ -74,8 +74,13 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.2.3.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.1.7.Final</version>
+            <version>4.1.4.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -117,7 +122,14 @@
                     <generatedSourcesDirectory>${project.build.directory}/generated-sources</generatedSourcesDirectory>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>org.nowak.Main</mainClass>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
