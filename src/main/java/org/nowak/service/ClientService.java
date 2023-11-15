@@ -14,10 +14,17 @@ public class ClientService {
     private final ClientSpringDataJPARepository clientRepository;
     private final ClientMapper mapper;
 
+    public boolean doesEmailExist(String email) {
+        return clientRepository.existsByEmail(email);
+    }
+
     public void save(ClientRequest clientRequest) {
         Client client = mapper.map(clientRequest);
-        clientRepository.save(client);
-
+        if (!doesEmailExist(clientRequest.getEmail())) {
+            clientRepository.save(client);
+        } else {
+            throw new IllegalArgumentException("Client with the same email already exists.");
+        }
     }
 
     public Client getClientById(Long id) {

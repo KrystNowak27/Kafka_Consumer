@@ -15,6 +15,11 @@ public class KafkaConsumerService {
     @KafkaListener(topics = "${spring.kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void consumeAndSave(ClientRequest clientRequest) {
         log.info(String.format("Json message received -> %s", clientRequest.toString()));
-       clientService.save(clientRequest);
+        if (!clientService.doesEmailExist(clientRequest.getEmail())) {
+            clientService.save(clientRequest);
+            log.info("Client data saved successfully.");
+        } else {
+            log.warn("Client with the same email already exists. Skipping save operation.");
+        }
     }
 }
