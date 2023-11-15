@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres:16
+    image: postgres:latest
     container_name: my_postgres
     ports:
       - "5432:5432"
@@ -20,13 +20,18 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
-  app:
-    build: .
+  consumer-app:
+    build:
+      context: .
     ports:
-      - "8080:8080"
+      - "8088:8088"
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/personality
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/personality
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: Coltrane1443
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_CONSUMER_GROUP_ID: myGroup
+      SPRING_KAFKA_TOPIC: my-topic
+      SPRING_DATASOURCE_HOST: my_postgres

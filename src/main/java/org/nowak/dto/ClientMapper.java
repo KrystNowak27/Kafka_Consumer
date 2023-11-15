@@ -1,4 +1,4 @@
-package org.nowak.service;
+package org.nowak.dto;
 
 import org.nowak.dto.ClientRequest;
 import org.nowak.repository.entity.Client;

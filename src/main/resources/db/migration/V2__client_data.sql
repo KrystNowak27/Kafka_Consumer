@@ -1,0 +1,4 @@
+--INSERT INTO client (first_name, surname, email, balance, user_id)
+--SELECT p.first_name, p.surname, p.email, p.balance, p.user_id
+--FROM personality p;
+--WHERE NOT EXISTS (SELECT 1 FROM client c WHERE c.email = p.email);
