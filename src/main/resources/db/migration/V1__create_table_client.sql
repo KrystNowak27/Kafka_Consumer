@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS client(
+create table if not exists client(
 user_id serial primary key,
 first_name varchar(50) not null,
 surname varchar(50) not null,

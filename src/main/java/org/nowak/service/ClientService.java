@@ -7,6 +7,8 @@ import org.nowak.repository.entity.Client;
 import org.nowak.repository.ClientSpringDataJPARepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +32,10 @@ public class ClientService {
     public Client getClientById(Long id) {
         return clientRepository.findById(id).orElse(null);
     }
+
+    public List<Client> getAllClients(){
+        return clientRepository.findAll();
+    }
+
 }
 

@@ -1,12 +1,11 @@
 package org.nowak.dto;
 
-import org.nowak.dto.ClientRequest;
 import org.nowak.repository.entity.Client;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ClientMapper {
-    public Client map(ClientRequest clientRequest){
+    public Client map(ClientRequest clientRequest) {
         return Client.builder()
                 .name(clientRequest.getName())
                 .surname(clientRequest.getSurname())

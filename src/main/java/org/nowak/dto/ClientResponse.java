@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClientRequest {
+public class ClientResponse {
     private String name;
     private String surname;
     private String email;
