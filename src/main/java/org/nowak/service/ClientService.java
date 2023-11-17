@@ -6,9 +6,7 @@ import org.nowak.dto.ClientRequest;
 import org.nowak.repository.entity.Client;
 import org.nowak.repository.ClientSpringDataJPARepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor

@@ -5,7 +5,6 @@ import org.nowak.dto.ClientRequest;
 import org.nowak.repository.entity.Client;
 import org.nowak.service.ClientService;
 import org.nowak.service.KafkaConsumerService;
-//import org.nowak.service.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
