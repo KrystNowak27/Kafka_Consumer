@@ -3,6 +3,8 @@ package org.nowak.dto;
 import org.nowak.repository.entity.Client;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class ClientMapper {
     public Client map(ClientRequest clientRequest) {
@@ -11,6 +13,7 @@ public class ClientMapper {
                 .surname(clientRequest.getSurname())
                 .email(clientRequest.getEmail())
                 .balance(clientRequest.getBalance())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }
