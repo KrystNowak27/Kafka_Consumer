@@ -4,6 +4,7 @@ import org.nowak.repository.entity.Client;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class ClientMapper {
@@ -13,7 +14,7 @@ public class ClientMapper {
                 .surname(clientRequest.getSurname())
                 .email(clientRequest.getEmail())
                 .balance(clientRequest.getBalance())
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                 .build();
     }
 }

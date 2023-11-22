@@ -5,7 +5,12 @@ import org.nowak.dto.ClientMapper;
 import org.nowak.dto.ClientRequest;
 import org.nowak.repository.entity.Client;
 import org.nowak.repository.ClientSpringDataJPARepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -33,6 +38,13 @@ public class ClientService {
 
     public List<Client> getAllClients(){
         return clientRepository.findAll();
+    }
+
+    @Scheduled(cron = "0 9 13 * * ?")
+    @Transactional
+    public void cleanupOldRecords() {
+        LocalDateTime oneMonthAgo = LocalDateTime.now().minus(30, ChronoUnit.MINUTES);
+        clientRepository.deleteByCreatedAtBefore(oneMonthAgo);
     }
 
 }
