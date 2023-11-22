@@ -40,10 +40,10 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    @Scheduled(cron = "0 9 13 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     @Transactional
     public void cleanupOldRecords() {
-        LocalDateTime oneMonthAgo = LocalDateTime.now().minus(30, ChronoUnit.MINUTES);
+        LocalDateTime oneMonthAgo = LocalDateTime.now().minus(1, ChronoUnit.MONTHS);
         clientRepository.deleteByCreatedAtBefore(oneMonthAgo);
     }
 
