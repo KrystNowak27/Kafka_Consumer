@@ -1,49 +1,48 @@
 package org.nowak.service;
 
 import lombok.RequiredArgsConstructor;
-import org.nowak.dto.ClientMapper;
+import org.nowak.dto.ClientDto;
 import org.nowak.dto.ClientRequest;
-import org.nowak.repository.entity.Client;
-import org.nowak.repository.ClientSpringDataJPARepository;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.nowak.exceptions.ClientAlreadyExistsException;
+import org.nowak.exceptions.NoIdClientInDatabaseException;
+import org.nowak.mapper.ClientMapper;
+import org.nowak.entity.Client;
+import org.nowak.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService {
-    private final ClientSpringDataJPARepository clientRepository;
+    private final ClientRepository clientRepository;
     private final ClientMapper mapper;
 
-    public boolean doesEmailExist(String email) {
+    public boolean emailExist(String email) {
         return clientRepository.existsByEmail(email);
     }
 
-    public void save(ClientRequest clientRequest) {
-        Client client = mapper.map(clientRequest);
-        if (!doesEmailExist(clientRequest.getEmail())) {
-            clientRepository.save(client);
-        } else {
-            throw new IllegalArgumentException("Client with the same email already exists.");
+    public void save(ClientDto clientDto) {
+        Client client = mapper.map(clientDto);
+        if (emailExist(clientDto.getEmail())) {
+            throw new ClientAlreadyExistsException("Client with email: " + clientDto.getEmail() + "already exists.");
         }
+        clientRepository.save(client);
     }
 
     public Client getClientById(Long id) {
-        return clientRepository.findById(id).orElse(null);
+        return clientRepository.findById(id).orElseThrow(()->
+                new NoIdClientInDatabaseException("Client with id: "+ id +" no exist"));
     }
 
     public List<Client> getAllClients(){
         return clientRepository.findAll();
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
     @Transactional
-    public void cleanupOldRecords() {
-        LocalDateTime oneMonthAgo = LocalDateTime.now().minus(1, ChronoUnit.MONTHS);
+    public void cleanupOldRecords(LocalDateTime oneMonthAgo) {
         clientRepository.deleteByCreatedAtBefore(oneMonthAgo);
     }
 

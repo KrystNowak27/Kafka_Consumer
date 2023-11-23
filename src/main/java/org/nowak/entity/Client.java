@@ -1,4 +1,4 @@
-package org.nowak.repository.entity;
+package org.nowak.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

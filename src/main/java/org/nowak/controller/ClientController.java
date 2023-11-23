@@ -1,12 +1,13 @@
 package org.nowak.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.nowak.dto.ClientDto;
 import org.nowak.dto.ClientRequest;
-import org.nowak.repository.entity.Client;
+import org.nowak.entity.Client;
+import org.nowak.mapper.ClientMapper;
 import org.nowak.service.ClientService;
 import org.nowak.service.KafkaConsumerService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,30 +18,27 @@ import java.util.List;
 public class ClientController {
     private final ClientService service;
     private final KafkaConsumerService kafkaConsumer;
+    private final ClientMapper mapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createClient(@RequestBody ClientRequest client) {
-        kafkaConsumer.consumeAndSave(client);
+    public void createClient(@RequestBody ClientRequest clientRequest) {
+        ClientDto clientDto = mapper.mapToDto(clientRequest);
+        kafkaConsumer.consumeAndSave(clientDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getClient(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public Client getClient(@PathVariable Long id) {
         Client client = service.getClientById(id);
-        if (client != null) {
-            return new ResponseEntity<>(client, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return client;
     }
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> getAllClients() {
         List<Client> clients = service.getAllClients();
-        if (!clients.isEmpty()) {
-            return new ResponseEntity<>(clients, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+            return clients;
+
     }
 }
